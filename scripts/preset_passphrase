@@ -1,0 +1,33 @@
+#!/bin/bash
+
+SCRIPT_NAME=$(basename $0)
+
+KEY=$1
+
+[ -z "${KEY}" ] && echo "${SCRIPT_NAME} <PGP Key>" 1>&2 && exit 1
+
+# get original stty setting
+stty_orig=`stty -g`
+
+function cleanup
+{
+    stty $stty_orig
+}
+
+trap cleanup SIGINT
+
+echo ${GPG_AGENT_INFO}
+echo ${GPG_AGENT_INFO} | sed 's,\(.*\)/.*,\1,'
+homedir=$(echo ${GPG_AGENT_INFO} | sed 's,\(.*\)/.*,\1,')
+# confirm only one fingerprint is needed on all platforms.  it seems that lucid's agent uses the public key instead of the private key sig?
+#fingerprint=$(gpg --fingerprint --fingerprint "${KEY}" | grep fingerprint | sed -e 1d -e 's/.*=\(.*\)/\1/' -e 's/ //g')
+fingerprint=$(gpg --fingerprint "${KEY}" | grep fingerprint | head -n 1 | sed -e 's/.*=\(.*\)/\1/' -e 's/ //g')
+
+echo "fingerprint: ${fingerprint}, homedir: ${homedir}"
+
+# disable echo
+stty -echo
+
+/usr/lib/gnupg2/gpg-preset-passphrase --homedir=${homedir} --preset ${fingerprint}
+
+cleanup
