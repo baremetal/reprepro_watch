@@ -9,6 +9,7 @@ setup(name = 'reprepro_watch',
       author_email = "roberto.c.aguilar@gmail.com", 
       packages = ['reprepro'], 
       long_description=open('README.md').read(),
+      # http://stackoverflow.com/questions/3472430/how-can-i-make-setuptools-install-a-package-thats-not-on-pypi
       dependency_links = ["http://github.com/rca/clint.git@c56d059fe6d9909a088f70f3df8d44810e5a9e75#egg=clint-dev"],
       install_requires= [
           "clint",
