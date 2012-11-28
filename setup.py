@@ -4,7 +4,7 @@ from distutils.core import setup
 
 setup(name = 'reprepro_watch', 
       version = '0.1', 
-      description = "An inotify-based watcher for reprepro", 
+      description = "An inotify-based tool to rebuild an APT repository",
       author = "Roberto Aguilar", 
       author_email = "roberto.c.aguilar@gmail.com", 
       packages = ['reprepro'], 
