@@ -6,6 +6,16 @@ KEY=$1
 
 [ -z "${KEY}" ] && echo "${SCRIPT_NAME} <PGP Key>" 1>&2 && exit 1
 
+agent_info=/var/run/reprepro_watch/gpg-agent.env
+if [ -z "${GPG_AGENT_INFO}" ] && [ -e "${agent_info}" ]; then
+    export $(cat ${agent_info})
+fi;
+
+if [ -z "${GPG_AGENT_INFO}" ]; then
+    echo "GPG_AGENT_INFO environment variable is not set, cannot continue" 1>&2
+    exit 1
+fi;
+
 # get original stty setting
 stty_orig=`stty -g`
 
