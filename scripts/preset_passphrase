@@ -16,8 +16,6 @@ function cleanup
 
 trap cleanup SIGINT
 
-echo ${GPG_AGENT_INFO}
-echo ${GPG_AGENT_INFO} | sed 's,\(.*\)/.*,\1,'
 homedir=$(echo ${GPG_AGENT_INFO} | sed 's,\(.*\)/.*,\1,')
 # confirm only one fingerprint is needed on all platforms.  it seems that lucid's agent uses the public key instead of the private key sig?
 #fingerprint=$(gpg --fingerprint --fingerprint "${KEY}" | grep fingerprint | sed -e 1d -e 's/.*=\(.*\)/\1/' -e 's/ //g')
