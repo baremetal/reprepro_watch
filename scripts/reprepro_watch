@@ -32,7 +32,7 @@ class RepreproWatch(Command):
         self.watcher.stop()
 
     def run(self):
-        if not len(self.args):
+        if not len(self.remaining_args):
             self.parser.print_help()
             return '\nERROR: incoming directory not given'
 
@@ -42,7 +42,7 @@ class RepreproWatch(Command):
         if 'GPG_AGENT_INFO' not in os.environ:
             return 'ERROR: GPG_AGENT_INFO is not set in environment'
 
-        incoming_directory = self.args[0]
+        incoming_directory = self.remaining_args[0]
 
         self.logger.info("Incoming directory: %s" % (incoming_directory,))
 
