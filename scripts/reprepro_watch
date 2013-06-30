@@ -38,7 +38,7 @@ class RepreproWatch(Command):
 
         self._check_gpg_agent_info()
 
-	# make sure GPG agent is running or else refuse to start
+        # make sure GPG agent is running or else refuse to start
         if 'GPG_AGENT_INFO' not in os.environ:
             return 'ERROR: GPG_AGENT_INFO is not set in environment'
 
