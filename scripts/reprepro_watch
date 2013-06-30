@@ -22,8 +22,11 @@ class RepreproWatch(Command):
 
     def _check_gpg_agent_info(self):
         # see if there is a gpg agent environment file
-        if os.path.exists(GPG_AGENT_INFO_PATH):
-            for line in fileinput.input(GPG_AGENT_INFO_PATH):
+        gpg_agent_info_path = os.environ.get('GPG_AGENT_INFO_PATH', GPG_AGENT_INFO_PATH)
+        self.logger.debug('checking GPG agent info at {}'.format(gpg_agent_info_path))
+
+        if os.path.exists(gpg_agent_info_path):
+            for line in fileinput.input(gpg_agent_info_path):
                 key, val = line.strip().split('=')
                 os.environ[key] = val
             fileinput.close()
