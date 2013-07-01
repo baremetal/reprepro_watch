@@ -28,15 +28,16 @@ function cleanup
 
 trap cleanup SIGINT
 
-homedir=$(echo ${GPG_AGENT_INFO} | sed 's,\(.*\)/.*,\1,')
-fingerprint=$(gpg --fingerprint --fingerprint "${KEY}" | grep fingerprint | sed -e 1d -e 's/.*=\(.*\)/\1/' -e 's/ //g')
-
-echo "fingerprint: ${fingerprint}, homedir: ${homedir}"
-/bin/echo -n "Type in or paste your passphrase:"
 
 # disable echo
 stty -echo
 
-/usr/lib/gnupg2/gpg-preset-passphrase --homedir=${homedir} --preset ${fingerprint}
+homedir=$(echo ${GPG_AGENT_INFO} | sed 's,\(.*\)/.*,\1,')
+for fingerprint in $(gpg --fingerprint --fingerprint "${KEY}" | grep fingerprint | sed -e 's/.*=\(.*\)/\1/' -e 's/ //g'); do
+    echo "fingerprint: ${fingerprint}, homedir: ${homedir}"
+    /bin/echo -n "Type in or paste your passphrase:"
+    /usr/lib/gnupg2/gpg-preset-passphrase --homedir=${homedir} --preset ${fingerprint}
+    /bin/echo ''
+done;
 
 cleanup
