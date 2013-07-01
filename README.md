@@ -49,9 +49,9 @@ Origin: Baremetal Industries
 Label: Baremetal
 Codename: lucid
 Version: 3.1
-Architectures: amd64 source
+Architectures: i386 amd64 source
 Components: main non-free contrib
-Description: AppScale Systems package repository for stable release code
+Description: Baremetal package repository for stable release code
 ```
 
 Note: if you want packages to be automatically signed, add the `SignWith` parameter:
@@ -59,9 +59,10 @@ Note: if you want packages to be automatically signed, add the `SignWith` parame
 ```
 SignWith: <key_id>
 ```
-In order for signing to work unattended with a key that contains a passphrase,
-the passphrase can be fed to the agent that the init script starts up using the
-`scripts/preset_passphrase` script:
+Note that the i386 architecture is required otherwise `apt-get update` will
+complain.  In order for signing to work unattended with a key that contains a
+passphrase, the passphrase can be fed to the agent that the init script starts
+up using the `scripts/preset_passphrase` script:
 
 ```
 scripts/preset_passphrase <key_id>
